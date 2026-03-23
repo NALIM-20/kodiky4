@@ -32,44 +32,40 @@ databaza = {
     ]
 }
 
-@app.route('/', methods=['GET'])
+# 1. Hlavná stránka
+@app.route('/')
 def home():
     return jsonify({"message": "Vitaj v mojom Flask backende!"})
 
-# 1. Zobrazenie celej databázy
-@app.route('/api', methods=['GET'])
-def api():
+# 2. Zobrazenie všetkých študentov (/api)
+@app.route('/api')
+def get_all_students():
     return jsonify(databaza)
 
-# 2. Vyhľadávanie študenta podľa ID pomocou FOR cyklu
-@app.route('/api/student/<int:student_id>', methods=['GET'])
+# 3. Vyhľadávanie podľa ID (/api/student/1)
+@app.route('/api/student/<int:student_id>')
 def find_student(student_id):
     for student in databaza["students"]:
         if student["id"] == student_id:
             return jsonify(student)
     
-    # Ak po prejdení celého cyklu nenájde zhodu
-    return jsonify({"error": f"Student s ID {student_id} nebol najdený"}), 404
+    # Ak sa nenájde, vráti chybu
+    return jsonify({"error": "Student not found"}), 404
 
-# 3. POST požiadavka - Pridanie nového študenta do zoznamu
-@app.route('/api/student', methods=['POST'])
-def pridaj_studenta():
-    novy_student = request.get_json()
-    
-    if not novy_student:
+# 4. Pridávanie nových dát (POST)
+@app.route('/data', methods=['POST'])
+def spracuj_data():
+    vstup = request.get_json()
+    if not vstup:
         return jsonify({"error": "Neposlal si žiadne dáta"}), 400
-
-    # Pridáme študenta do nášho zoznamu
-    databaza["students"].append(novy_student)
     
     return jsonify({
-        "message": "Študent úspešne pridaný!",
-        "prijate_data": novy_student
+        "status": "úspech",
+        "prijate_data": vstup
     }), 201
 
 if __name__ == '__main__':
     app.run(debug=True)
-
 
 
 
