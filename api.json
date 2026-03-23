@@ -1,0 +1,12 @@
+[
+    {"id": 1, "name": "Adrian", "surname": "Cervenka", "nickname": "chilli pepper", "image": "https://picsum.photos/id/1011/300/200"},
+    {"id": 2, "name": "Milan", "surname": "Kokina", "nickname": "tanecník", "image": "https://picsum.photos/id/1012/300/200"},
+    {"id": 3, "name": "Martin", "surname": "Jelínek", "nickname": "král jelimán", "image": "https://picsum.photos/id/1013/300/200"},
+    {"id": 4, "name": "Daniel", "surname": "Barta", "nickname": "skeleton", "image": "https://picsum.photos/id/1014/300/200"},
+    {"id": 5, "name": "Elena", "surname": "Kováčová", "nickname": "perla", "image": "https://picsum.photos/id/1015/300/200"},
+    {"id": 6, "name": "Peter", "surname": "Sekerka", "nickname": "drevorubač", "image": "https://picsum.photos/id/1016/300/200"},
+    {"id": 7, "name": "Jana", "surname": "Malá", "nickname": "včielka", "image": "https://picsum.photos/id/1018/300/200"},
+    {"id": 8, "name": "Marek", "surname": "Sloboda", "nickname": "vták", "image": "https://picsum.photos/id/1019/300/200"},
+    {"id": 9, "name": "Simona", "surname": "Vysoká", "nickname": "žirafa", "image": "https://picsum.photos/id/1020/300/200"},
+    {"id": 10, "name": "Lukáš", "surname": "Novák", "nickname": "blesk", "image": "https://picsum.photos/id/1021/300/200"}
+]
