@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Môj Backend - Študenti</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f0f2f5; 
+            text-align: center; 
+            margin: 0; 
+            padding: 20px;
+        }
+        .container { 
+            display: flex; 
+            flex-wrap: wrap; 
+            justify-content: center; 
+            gap: 20px; 
+            margin-top: 30px;
+        }
+        .card { 
+            background: white; 
+            border-radius: 12px; 
+            padding: 15px; 
+            width: 260px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+            border: 1px solid #eee; 
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        img { 
+            width: 100%; 
+            height: 180px; 
+            object-fit: cover; 
+            border-radius: 8px; 
+            margin-top: 10px; 
+        }
+        h3 { margin: 10px 0 5px 0; color: #1c1e21; }
+        p { color: #606770; font-style: italic; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>🎓 Zoznam študentov z API</h1>
+    <p>Dáta sú sťahované z tvojho Flask backendu</p>
+
+    <div id="studenti-list" class="container">
+        </div>
+
+    <script>
+        // Adresa tvojho bežiaceho Flask servera
+        const API_URL = 'http://127.0.0.1:5000/api';
+
+        fetch(API_URL)
+            .then(response => {
+                if (!response.ok) throw new Error('Nepodarilo sa pripojiť k API. Beží ti Flask?');
+                return response.json();
+            })
+            .then(data => {
+                const list = document.getElementById('studenti-list');
+                list.innerHTML = ""; // Vyčistiť text "Načítavam..."
+
+                data.forEach(student => {
+                    const card = `
+                        <div class="card">
+                            <h3>${student.name} ${student.surname}</h3>
+                            <p>"${student.nickname}"</p>
+                            <img src="${student.image}" alt="${student.name}">
+                        </div>
+                    `;
+                    list.innerHTML += card;
+                });
+            })
+            .catch(error => {
+                document.getElementById('studenti-list').innerHTML = 
+                    `<p style="color:red;"><b>Chyba:</b> ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>
