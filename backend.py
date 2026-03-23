@@ -37,7 +37,7 @@ def find_student(student_id):
     for student in databaza["students"]:
         if student["id"] == student_id:
             return jsonify(student)
-    return jsonify({"error": "Student not found"}), 404
+    return jsonify({"error": "Student not found"}),
 
 
 @app.route('/api')
