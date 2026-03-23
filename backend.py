@@ -3,14 +3,20 @@ from flask import Flask, jsonify, request
 app = Flask(__name__)
 
 # Tvoja databáza
-databaza = {
-    "students": [
-        {"id": 1, "name": "Adrian", "surname": "Cervenka", "nickname": "chilli pepper"},
-        {"id": 2, "name": "Milan", "surname": "Kokina", "nickname": "tanecník"},
-        {"id": 3, "name": "Martin", "surname": "Jelínek", "nickname": "král jelimán"},
-        {"id": 4, "name": "Daniel", "surname": "Barta", "nickname": "skeleton"}
-    ]
-}
+databaza = [
+    {"id": 1, "name": "Adrian", "surname": "Cervenka", "nickname": "chilli pepper", "image": "https://picsum.photos/id/10/200"},
+    {"id": 2, "name": "Milan", "surname": "Kokina", "nickname": "tanecník", "image": "https://picsum.photos/id/20/200"},
+    {"id": 3, "name": "Martin", "surname": "Jelínek", "nickname": "král jelimán", "image": "https://picsum.photos/id/30/200"},
+    {"id": 4, "name": "Daniel", "surname": "Barta", "nickname": "skeleton", "image": "https://picsum.photos/id/40/200"},
+    {"id": 5, "name": "Jana", "surname": "Veselá", "nickname": "slniečko", "image": "https://picsum.photos/id/50/200"},
+    {"id": 6, "name": "Peter", "surname": "Horský", "nickname": "vlk", "image": "https://picsum.photos/id/60/200"},
+    {"id": 7, "name": "Lucia", "surname": "Biela", "nickname": "snežienka", "image": "https://picsum.photos/id/70/200"},
+    {"id": 8, "name": "Marek", "surname": "Tichý", "nickname": "duch", "image": "https://picsum.photos/id/80/200"},
+    {"id": 9, "name": "Simona", "surname": "Rýchla", "nickname": "raketa", "image": "https://picsum.photos/id/90/200"},
+    {"id": 10, "name": "Jakub", "surname": "Kováč", "nickname": "kladivo", "image": "https://picsum.photos/id/100/200"}
+]
+
+
 
 # Hlavná stránka - názov funkcie: home
 @app.route('/')
@@ -41,4 +47,3 @@ def post_data():
 if __name__ == '__main__':
     # Spustenie servera
     app.run(debug=True)
-    
