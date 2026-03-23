@@ -32,6 +32,14 @@ databaza = {
     ]
 }
 
+@app.route('/api/student/<int:student_id>')
+def find_student(student_id):
+    for student in databaza["students"]:
+        if student["id"] == student_id:
+            return jsonify(student)
+    return jsonify({"error": "Student not found"}), 404
+
+
 @app.route('/api')
 def api():
     return jsonify(databaza)
