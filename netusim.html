@@ -8,15 +8,34 @@
             margin: 0;
             padding: 20px;
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #050505;
             color: #00f2ff; /* Neónová modrá */
+            
+            /* ANIMOVANÉ POZADIE */
+            background: linear-gradient(-45deg, #050505, #0a0a20, #150015, #050505);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Pohyb farieb na pozadí */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         h1 {
             text-align: center;
-            font-size: 40px;
+            font-size: 45px;
             text-shadow: 0 0 10px #00f2ff, 0 0 20px #0066ff;
             margin-bottom: 10px;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 10px #00f2ff, 0 0 20px #0066ff; }
+            50% { transform: scale(1.05); text-shadow: 0 0 20px #00f2ff, 0 0 40px #0066ff; }
         }
 
         #students-container {
@@ -25,23 +44,27 @@
             justify-content: center;
             gap: 25px;
             margin-top: 30px;
+            position: relative;
+            z-index: 1;
         }
 
         .card {
-            background: #111;
+            background: rgba(0, 0, 0, 0.7); /* Polopriehľadná, aby vyniklo pozadie */
             border: 2px solid #00f2ff;
             border-radius: 15px;
             width: 220px;
             padding: 15px;
             text-align: center;
-            transition: 0.3s;
+            transition: 0.4s;
             position: relative;
             overflow: hidden;
+            backdrop-filter: blur(5px); /* Rozmazanie pozadia pod kartou */
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.6);
+            border-color: #ff00ff; /* Pri hoveri sa zmení na ružovú */
         }
 
         .card img {
@@ -51,6 +74,11 @@
             border-radius: 10px;
             margin-bottom: 10px;
             border: 1px solid #333;
+            transition: 0.5s;
+        }
+
+        .card:hover img {
+            filter: brightness(1.2) contrast(1.1);
         }
 
         .card h3 {
@@ -58,6 +86,7 @@
             margin: 10px 0 5px 0;
             text-transform: uppercase;
             letter-spacing: 1px;
+            color: #fff;
         }
 
         .nickname {
@@ -69,13 +98,15 @@
 
         .loading {
             text-align: center;
-            font-size: 20px;
+            font-size: 24px;
             margin-top: 50px;
-            animation: blink 1s infinite;
+            text-shadow: 0 0 10px #00f2ff;
+            animation: blink 1.5s infinite;
         }
 
         @keyframes blink {
-            50% { opacity: 0; }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
         }
     </style>
 </head>
@@ -84,7 +115,7 @@
     <h1>👨‍💻 Neon Student API</h1>
 
     <div id="students-container">
-        <div class="loading">Sťahujem dáta z backendu...</div>
+        <div class="loading">Sťahujem dáta z neónovej siete...</div>
     </div>
 
     <script>
@@ -96,42 +127,27 @@
 
         async function loadStudents() {
             try {
-                // Pokus o sťahovanie z Flasku
+                // Pokus o sťahovanie z Flasku, ak zlyhá, ide na BACKUP_URL
                 let res = await fetch(API_URL).catch(() => fetch(BACKUP_URL));
                 
                 if (!res.ok) throw new Error("Chyba pripojenia");
                 
                 let data = await res.json();
                 
-                // Vyčistíme kontajner (odstránime loading text)
                 container.innerHTML = "";
 
-                // Na tvojom backende máš študentov v databaza["students"]
-                // Ak ti API vráti objekt, vyberieme z neho students, inak použijeme dáta priamo
+                // Ak dáta prišli ako objekt so zoznamom, alebo priamo ako pole
                 const studentsArray = data.students ? data.students : data;
 
                 studentsArray.forEach(student => {
                     const card = document.createElement("div");
                     card.className = "card";
 
-                    // Obrázok študenta
-                    const img = document.createElement("img");
-                    img.src = student.image;
-                    img.alt = student.name;
-
-                    // Meno a priezvisko
-                    const title = document.createElement("h3");
-                    title.textContent = `${student.name} ${student.surname}`;
-
-                    // Prezývka
-                    const nick = document.createElement("p");
-                    nick.className = "nickname";
-                    nick.textContent = `"${student.nickname}"`;
-
-                    // Poskladanie karty
-                    card.appendChild(img);
-                    card.appendChild(title);
-                    card.appendChild(nick);
+                    card.innerHTML = `
+                        <img src="${student.image}" alt="${student.name}">
+                        <h3>${student.name} ${student.surname}</h3>
+                        <p class="nickname">"${student.nickname}"</p>
+                    `;
 
                     container.appendChild(card);
                 });
@@ -142,7 +158,6 @@
             }
         }
 
-        // Spustenie funkcie pri načítaní stránky
         loadStudents();
     </script>
 

@@ -7,16 +7,16 @@ CORS(app)  # Povolíme prístup z iných adries (kvôli bonusu)
 # 1. Databáza študentov (10 záznamov s obrázkami z internetu)
 databaza = {
     "students": [
-        {"id": 1, "name": "Adrian", "surname": "Cervenka", "nickname": "chilli pepper", "image": "https://picsum.photos/id/1011/300/200"},
-        {"id": 2, "name": "Milan", "surname": "Kokina", "nickname": "tanecník", "image": "https://picsum.photos/id/1012/300/200"},
-        {"id": 3, "name": "Martin", "surname": "Jelínek", "nickname": "král jelimán", "image": "https://picsum.photos/id/1013/300/200"},
-        {"id": 4, "name": "Daniel", "surname": "Barta", "nickname": "skeleton", "image": "https://picsum.photos/id/1014/300/200"},
-        {"id": 5, "name": "Elena", "surname": "Kováčová", "nickname": "perla", "image": "https://picsum.photos/id/1015/300/200"},
-        {"id": 6, "name": "Peter", "surname": "Sekerka", "nickname": "drevorubač", "image": "https://picsum.photos/id/1016/300/200"},
-        {"id": 7, "name": "Jana", "surname": "Malá", "nickname": "včielka", "image": "https://picsum.photos/id/1018/300/200"},
-        {"id": 8, "name": "Marek", "surname": "Sloboda", "nickname": "vták", "image": "https://picsum.photos/id/1019/300/200"},
-        {"id": 9, "name": "Simona", "surname": "Vysoká", "nickname": "žirafa", "image": "https://picsum.photos/id/1020/300/200"},
-        {"id": 10, "name": "Lukáš", "surname": "Novák", "nickname": "blesk", "image": "https://picsum.photos/id/1021/300/200"}
+    {"id": 1, "name": "Adrian", "surname": "Červenka", "nickname": "chilli pepper", "image": "https://picsum.photos/id/1011/300/200"},
+    {"id": 2, "name": "Milan", "surname": "Kokina", "nickname": "tanečník", "image": "https://sportnet.sme.sk/futbalnet/clen/5efee63f1b04f230d150c5ce/milan-kokina/"},
+    {"id": 3, "name": "Martin", "surname": "Jelínek", "nickname": "král jelimán", "image": "https://picsum.photos/id/1013/300/200"},
+    {"id": 4, "name": "Daniel", "surname": "Barta", "nickname": "skeleton", "image": "https://picsum.photos/id/1014/300/200"},
+    {"id": 5, "name": "Matej", "surname": "Randziak", "nickname": "tankista", "image": "https://picsum.photos/id/1015/300/200"},
+    {"id": 6, "name": "Matúš", "surname": "Bucko", "nickname": "xxxxxxxxxx", "image": "https://picsum.photos/id/1016/300/200"},
+    {"id": 7, "name": "Jana", "surname": "Vargová", "nickname": "xxxxxxxxxx", "image": "https://picsum.photos/id/1018/300/200"},
+    {"id": 8, "name": "Matúš", "surname": "Holečka", "nickname": "xxxxxxxxxx", "image": "https://picsum.photos/id/1019/300/200"},
+    {"id": 9, "name": "Marko", "surname": "Mihalička", "nickname": "xxxxxxxxxx", "image": "https://picsum.photos/id/1020/300/200"},
+    {"id": 10, "name": "Lukáš", "surname": "Vindiš", "nickname": "žirafa", "image": "https://picsum.photos/id/1021/300/200"}
     ]
 }
 
