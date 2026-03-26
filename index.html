@@ -8,17 +8,13 @@
             margin: 0;
             padding: 20px;
             font-family: 'Segoe UI', Arial, sans-serif;
-            color: #00f2ff; /* Neónová modrá */
-            
-            /* ANIMOVANÉ POZADIE */
+            color: #00f2ff;
             background: linear-gradient(-45deg, #050505, #0a0a20, #150015, #050505);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
             min-height: 100vh;
-            overflow-x: hidden;
         }
 
-        /* Pohyb farieb na pozadí */
         @keyframes gradientBG {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
@@ -27,15 +23,8 @@
 
         h1 {
             text-align: center;
-            font-size: 45px;
+            font-size: 40px;
             text-shadow: 0 0 10px #00f2ff, 0 0 20px #0066ff;
-            margin-bottom: 10px;
-            animation: titlePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes titlePulse {
-            0%, 100% { transform: scale(1); text-shadow: 0 0 10px #00f2ff, 0 0 20px #0066ff; }
-            50% { transform: scale(1.05); text-shadow: 0 0 20px #00f2ff, 0 0 40px #0066ff; }
         }
 
         #students-container {
@@ -44,27 +33,22 @@
             justify-content: center;
             gap: 25px;
             margin-top: 30px;
-            position: relative;
-            z-index: 1;
         }
 
         .card {
-            background: rgba(0, 0, 0, 0.7); /* Polopriehľadná, aby vyniklo pozadie */
+            background: rgba(0, 0, 0, 0.8);
             border: 2px solid #00f2ff;
             border-radius: 15px;
             width: 220px;
             padding: 15px;
             text-align: center;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(5px); /* Rozmazanie pozadia pod kartou */
+            transition: 0.3s;
+            backdrop-filter: blur(5px);
         }
 
         .card:hover {
-            transform: translateY(-15px) scale(1.05);
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.6);
-            border-color: #ff00ff; /* Pri hoveri sa zmení na ružovú */
+            transform: translateY(-10px);
+            box-shadow: 0 0 30px #00f2ff;
         }
 
         .card img {
@@ -72,41 +56,13 @@
             height: 150px;
             object-fit: cover;
             border-radius: 10px;
-            margin-bottom: 10px;
             border: 1px solid #333;
-            transition: 0.5s;
-        }
-
-        .card:hover img {
-            filter: brightness(1.2) contrast(1.1);
-        }
-
-        .card h3 {
-            font-size: 18px;
-            margin: 10px 0 5px 0;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #fff;
         }
 
         .nickname {
-            color: #ff00ff; /* Neónová ružová pre prezývku */
+            color: #ff00ff;
             font-style: italic;
-            font-size: 14px;
             text-shadow: 0 0 5px #ff00ff;
-        }
-
-        .loading {
-            text-align: center;
-            font-size: 24px;
-            margin-top: 50px;
-            text-shadow: 0 0 10px #00f2ff;
-            animation: blink 1.5s infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
     </style>
 </head>
@@ -115,51 +71,53 @@
     <h1>👨‍💻 Neon Student API</h1>
 
     <div id="students-container">
-        <div class="loading">Sťahujem dáta z neónovej siete...</div>
+        <p>Načítavam študentov...</p>
     </div>
 
     <script>
         const container = document.getElementById("students-container");
 
-        // Skúsime najprv tvoj lokálny Flask, ak nepôjde (si na Githube), skúsime api.json
-        const API_URL = "http://127.0.0.1:5000/api";
-        const BACKUP_URL = "api.json"; 
-
         async function loadStudents() {
             try {
-                // Pokus o sťahovanie z Flasku, ak zlyhá, ide na BACKUP_URL
-                let res = await fetch(API_URL).catch(() => fetch(BACKUP_URL));
-                
-                if (!res.ok) throw new Error("Chyba pripojenia");
-                
-                let data = await res.json();
-                
+                // Skúsime najprv lokálny backend, ak zlyhá, skúsime api.json
+                let response;
+                try {
+                    response = await fetch("http://127.0.0.1:5000/api");
+                } catch (e) {
+                    console.log("Flask nebeží, skúšam api.json");
+                    response = await fetch("api.json");
+                }
+
+                if (!response.ok) throw new Error("Dáta sa nepodarilo načítať.");
+
+                const data = await response.json();
                 container.innerHTML = "";
 
-                // Ak dáta prišli ako objekt so zoznamom, alebo priamo ako pole
+                // OŠETRENIE FORMÁTU DÁT:
+                // Ak je to objekt {"students": [...]}, vezmeme to pole, inak berieme priamo data
                 const studentsArray = data.students ? data.students : data;
+
+                if (!Array.isArray(studentsArray)) {
+                    throw new Error("Dáta nie sú vo formáte poľa!");
+                }
 
                 studentsArray.forEach(student => {
                     const card = document.createElement("div");
                     card.className = "card";
-
                     card.innerHTML = `
-                        <img src="${student.image}" alt="${student.name}">
+                        <img src="${student.image}" alt="foto">
                         <h3>${student.name} ${student.surname}</h3>
                         <p class="nickname">"${student.nickname}"</p>
                     `;
-
                     container.appendChild(card);
                 });
 
             } catch (error) {
-                container.innerHTML = `<p style="color:red">Chyba: Backend nie je spustený alebo súbor api.json chýba.</p>`;
-                console.error(error);
+                container.innerHTML = `<p style="color:red">Chyba: ${error.message}</p>`;
             }
         }
 
         loadStudents();
     </script>
-
 </body>
 </html>
